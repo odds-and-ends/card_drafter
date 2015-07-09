@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# Avoid running bundle exec by running this first instead!
+lib_directory = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH << lib_directory
+
+# pull in library
+require 'card_drafter'
+
+# Create cards
+CardDrafter.draft_cards(ARGV.first, Dir.pwd)

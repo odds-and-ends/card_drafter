@@ -1,0 +1,28 @@
+enemies:
+  - title: Goblin
+    img: goblin.jpg
+    stats:
+      brawn: 1
+      grace: 1
+      aim: 1
+    abilities:
+      Goblin Horde: +1 damage for each other Goblin in same square
+      health: 4
+  - title: Goblin Bruiser
+    stats:
+      brawn: 2
+      grace: 1
+      grit: 1
+      aim: 2
+    abilities:
+      You get: The picture
+class abilities:
+  - title: Gunslinger
+    img: gunslinger-sketch.png
+    abilities:
+      Cover Fire: Can fire as many times as you have loaded ammo at -1 penalty. Each target fired at gets -1 to attack for 1 turn.
+      Calling You Out: Taunt one enemy etc.
+      Quick Draw: Any time the Gunslinger is fired at etc.
+  - title: Boxer
+    abilites:
+      One Two: Etc. etc.
