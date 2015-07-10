@@ -37,7 +37,7 @@ class CardDrafter
     end
 
     def create_abilities_cards
-      abilities = yaml['class abilities']
+      abilities = yaml['abilities']
       abilities.each do |card_hash|
         AbilitiesCard.new(card_hash).draw_card
       end

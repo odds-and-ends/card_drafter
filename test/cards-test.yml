@@ -19,7 +19,7 @@ enemies:
       Bruises: +2 bruises (1 for each fist)
       You get: The picture
     health: 6
-class abilities:
+abilities:
   - title: Gunslinger
     img: gunslinger-sketch.png
     abilities:
