@@ -1,6 +1,11 @@
 class EnemyCard < Card
   attr_accessor :pdf, :card_hash
 
+  WIDTH = 2.5.in
+  HEIGHT = 3.5.in
+  INNER_WIDTH = WIDTH - PADDING * 2
+  INNER_HEIGHT = HEIGHT - PADDING * 2
+
   IMAGE_HEIGHT = 1.in
   IMAGE_WIDTH = 1.in
 

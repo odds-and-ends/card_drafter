@@ -5,8 +5,6 @@ require 'card_drafter/card'
 require 'card_drafter/enemy_card'
 require 'card_drafter/abilities_card'
 
-
-
 class CardDrafter
   PDF = Prawn::Document.new
 
