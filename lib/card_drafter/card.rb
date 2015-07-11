@@ -46,4 +46,28 @@ class Card
                              style: :bold,
                              overflow: :shrink_to_fit
   end
+
+  def image_path(filename)
+    Dir.pwd + '/' + filename if filename.respond_to?(:+)
+  end
+
+  def icon_image_path(filename)
+    CardDrafter.dir + '/card_drafter/icons/' + filename if filename.respond_to?(:+)
+  end
+
+  def image_found?(image_path)
+    File.file?(image_path) unless image_path.nil?
+  end
+
+  def style_text(description_text)
+    result = ''
+    description_text.each do |attribute, description|
+      result += '<b>' + attribute + ':</b> ' + description + "\n\n"
+    end
+    insert_icons(result)
+  end
+
+  def insert_icons(formatted_text)
+    formatted_text
+  end
 end

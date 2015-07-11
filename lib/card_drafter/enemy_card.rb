@@ -21,7 +21,7 @@ class EnemyCard < Card
   HEALTH_SIZE = 0.5.in
   HEALTH_FONT_SIZE = 16
 
-  ACTION_LEFT = 25
+  ACTION_LEFT = 20
   ACTION_SPACING = 30
   ACTION_CIRCLE_SIZE = 5
 
@@ -42,7 +42,9 @@ class EnemyCard < Card
 
   def draw_image(filename)
     pdf.move_down TITLE_HEIGHT + PADDING
-    pdf.bounding_box([0, pdf.cursor], width: IMAGE_WIDTH, height: IMAGE_HEIGHT) do
+    left_top = [0, pdf.cursor]
+    bounding_box_args = [left_top, width: IMAGE_WIDTH, height: IMAGE_HEIGHT]
+    pdf.bounding_box(*bounding_box_args) do
       if image_found?(filename)
         pdf.image(image_path(filename), fit: [IMAGE_WIDTH, IMAGE_HEIGHT])
       end
@@ -63,8 +65,8 @@ class EnemyCard < Card
     end
   end
 
-  def draw_description_box(description_text)
-    styled_text = style_text(description_text)
+  def draw_description_box(raw_text)
+    styled_text = raw_text.nil? ? '' : style_text(raw_text)
     pdf.move_down PADDING
     left_top = [0, pdf.cursor]
     bounding_box_args = [left_top, { width: INNER_WIDTH, height: DESCRIPTION_HEIGHT }]
@@ -113,14 +115,6 @@ class EnemyCard < Card
     pdf.draw_text(stat_text(stat), at: [stat_text_left(index), pdf.cursor])
   end
 
-  def style_text(description_text)
-    result = ''
-    description_text.each do |attribute, description|
-      result += '<b>' + attribute + ':</b> ' + description + "\n\n"
-    end
-    result
-  end
-
   def stat_icon_left(index)
     index < 3 ? 0 : (STATS_WIDTH / 2.0 - 2)
   end
@@ -139,17 +133,5 @@ class EnemyCard < Card
     else
       pdf.move_down STAT_SPACING
     end
-  end
-
-  def image_path(filename)
-    Dir.pwd + '/' + filename if filename.respond_to?(:+)
-  end
-
-  def icon_image_path(filename)
-    CardDrafter.dir + '/card_drafter/icons/' + filename if filename.respond_to?(:+)
-  end
-
-  def image_found?(image_path)
-    File.file?(image_path) unless image_path.nil?
   end
 end
