@@ -7,4 +7,4 @@ $LOAD_PATH << lib_directory
 require 'card_drafter'
 
 # Create cards
-CardDrafter.draft_cards(ARGV.first, Dir.pwd)
+CardDrafter.draft_cards(ARGV.first, lib_directory)

@@ -9,11 +9,11 @@ class CardDrafter
   PDF = Prawn::Document.new
 
   class << self
-    attr_reader :yaml, :source_directory, :filename
+    attr_reader :yaml, :lib_directory, :filename
 
-    def draft_cards(filename, source_directory)
+    def draft_cards(filename, lib_directory)
       @filename = filename
-      @source_directory = source_directory
+      @lib_directory = lib_directory
 
       load_yaml
       create_enemy_cards
@@ -21,7 +21,7 @@ class CardDrafter
       render_pdf
     end
 
-    alias_method :dir, :source_directory
+    alias_method :dir, :lib_directory
 
     def load_yaml
       @yaml = YAML.load_file(filename)

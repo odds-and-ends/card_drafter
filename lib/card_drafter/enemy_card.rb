@@ -15,11 +15,15 @@ class EnemyCard < Card
   STAT_FONT_SIZE = 14
   STAT_SPACING = PADDING * 1.5
 
-  DESCRIPTION_HEIGHT = 1.75.in
+  DESCRIPTION_HEIGHT = 1.5.in
   DESCRIPTION_FONT_SIZE = 10
 
   HEALTH_SIZE = 0.5.in
   HEALTH_FONT_SIZE = 16
+
+  ACTION_LEFT = 25
+  ACTION_SPACING = 30
+  ACTION_CIRCLE_SIZE = 5
 
   def initialize(card_hash)
     super()
@@ -33,6 +37,7 @@ class EnemyCard < Card
     draw_stats_boxes
     draw_description_box(card_hash['abilities'])
     draw_health_stat(card_hash['health'].to_s)
+    draw_action_stat(card_hash['action'])
   end
 
   def draw_image(filename)
@@ -86,9 +91,21 @@ class EnemyCard < Card
     end
   end
 
+  def draw_action_stat(action)
+    pdf.move_down PADDING * 2
+    5.times do |i|
+      if i <= action
+        pdf.fill_circle [ACTION_LEFT + ACTION_SPACING*i, pdf.cursor], ACTION_CIRCLE_SIZE
+      else
+        pdf.stroke_circle [ACTION_LEFT + ACTION_SPACING*i, pdf.cursor],ACTION_CIRCLE_SIZE
+      end
+    end
+  end
+
   def draw_stat_icon(stat, index)
-    filename = 'icons/' + stat + '.png'
-    pdf.image(image_path(filename), fit: [STAT_SIZE, STAT_SIZE], at: [stat_icon_left(index), pdf.cursor])
+    filename = stat + '.png'
+    pdf.image(icon_image_path(filename), fit: [STAT_SIZE, STAT_SIZE],
+                                          at: [stat_icon_left(index), pdf.cursor])
   end
 
   def draw_stat_text(stat, index)
@@ -125,7 +142,11 @@ class EnemyCard < Card
   end
 
   def image_path(filename)
-    CardDrafter.dir + '/' + filename if filename.respond_to?(:+)
+    Dir.pwd + '/' + filename if filename.respond_to?(:+)
+  end
+
+  def icon_image_path(filename)
+    CardDrafter.dir + '/card_drafter/icons/' + filename if filename.respond_to?(:+)
   end
 
   def image_found?(image_path)

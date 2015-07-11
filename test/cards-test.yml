@@ -9,6 +9,7 @@ enemies:
       Goblin Horde: +1 damage for each other Goblin in same square
       Another Ability: This is it's description text
     health: 4
+    action: 2
   - title: Goblin Bruiser
     stats:
       brawn: 2
@@ -19,6 +20,7 @@ enemies:
       Bruises: +2 bruises (1 for each fist)
       You get: The picture
     health: 6
+    action: 3
 abilities:
   - title: Gunslinger
     img: gunslinger-sketch.png
