@@ -15,14 +15,13 @@ class CardDrafter
 
   class << self
     attr_accessor :left_edge
-    attr_reader :yaml, :lib_directory, :filename
+    attr_reader :yaml, :lib_directory
 
-    def draft_cards(filename, lib_directory)
-      @filename = filename
+    def draft_cards(lib_directory)
       @lib_directory = lib_directory
       @left_edge = 0
 
-      load_yaml
+      load_yamls
       create_enemy_cards
       create_abilities_cards
       render_pdf
@@ -30,14 +29,14 @@ class CardDrafter
 
     alias_method :dir, :lib_directory
 
-    def load_yaml
-      @yaml = YAML.load_file(filename)
+    def load_yamls
+      @enemies = YAML.load_file('enemies.yml')
+      @abilities = YAML.load_file('abilities.yml')
     end
 
     def create_enemy_cards
       PDF.start_new_page(layout: :portrait, margin: PORTRAIT_MARGIN)
-      enemies = yaml['enemies']
-      enemies.each_with_index do |card_hash, index|
+      @enemies.each_with_index do |card_hash, index|
         card = EnemyCard.new(card_hash)
         card.draw!
         move_cursor_for_new_card(index, card)
@@ -46,8 +45,7 @@ class CardDrafter
 
     def create_abilities_cards
       PDF.start_new_page(layout: :landscape, margin: LANDSCAPE_MARGIN)
-      abilities = yaml['abilities']
-      abilities.each_with_index do |card_hash, index|
+      @abilities.each_with_index do |card_hash, index|
         card = AbilitiesCard.new(card_hash)
         card.draw!
         move_cursor_for_new_card(index, card)
@@ -55,8 +53,7 @@ class CardDrafter
     end
 
     def render_pdf
-      basename = File.basename(@filename, '.*')
-      PDF.render_file(basename + '.pdf')
+      PDF.render_file('cards_draft.pdf')
     end
 
     def move_cursor_for_new_card(index, card)
