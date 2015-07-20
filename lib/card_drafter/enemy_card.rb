@@ -1,5 +1,5 @@
 class EnemyCard < Card
-  attr_accessor :pdf, :card_hash
+  attr_accessor :pdf, :card_hash, :orientation, :margin
 
   WIDTH = 2.5.in
   HEIGHT = 3.5.in
@@ -29,6 +29,8 @@ class EnemyCard < Card
     super()
     @pdf = CardDrafter::PDF
     @card_hash = card_hash
+    @orientation = :portrait
+    @margin = CardDrafter::PORTRAIT_MARGIN
   end
 
   def card_contents
@@ -96,7 +98,7 @@ class EnemyCard < Card
   def draw_action_stat(action)
     pdf.move_down PADDING * 2
     5.times do |i|
-      if i <= action
+      if i + 1 <= action
         pdf.fill_circle [ACTION_LEFT + ACTION_SPACING*i, pdf.cursor], ACTION_CIRCLE_SIZE
       else
         pdf.stroke_circle [ACTION_LEFT + ACTION_SPACING*i, pdf.cursor],ACTION_CIRCLE_SIZE

@@ -1,6 +1,6 @@
 class Card
   # Superclass for cards.
-  # Cards are drawn via the draw_card method which gives an outline and then fills it
+  # Cards are drawn via the draw method which gives an outline and then fills it
   # it gets the content for the card from the subclass's `card_contents` method.
   #
   FILENAME = 'cards-test'
@@ -12,28 +12,29 @@ class Card
 
   PADDING = RADIUS / 2.0
 
-  attr_accessor :pdf, :width, :height, :inner_width, :inner_height
+  attr_accessor :pdf, :width, :height, :inner_width, :inner_height, :left_edge
 
   def initialize
     @pdf = CardDrafter::PDF
+    @left_edge = CardDrafter.left_edge
     @width = self.class::WIDTH
     @height = self.class::HEIGHT
     @inner_width = self.class::INNER_WIDTH
     @inner_height = self.class::INNER_HEIGHT
   end
 
-  def draw_card
+  def draw!
     draw_card_outline
     draw_contents
   end
 
   def draw_card_outline
-    pdf.stroke_rounded_rectangle [0, pdf.cursor], width, height, RADIUS
+    pdf.stroke_rounded_rectangle [left_edge, pdf.cursor], width, height, RADIUS
   end
 
   def draw_contents
     pdf.move_down RADIUS
-    pdf.bounding_box([PADDING, pdf.cursor], width: inner_width, height: inner_height) do
+    pdf.bounding_box([left_edge + PADDING, pdf.cursor], width: inner_width, height: inner_height) do
       card_contents
     end
   end
@@ -62,12 +63,8 @@ class Card
   def style_text(description_text)
     result = ''
     description_text.each do |attribute, description|
-      result += '<b>' + attribute + ':</b> ' + description + "\n\n"
+      result += '<b>' + attribute.to_s + ':</b> ' + description.to_s + "\n\n"
     end
-    insert_icons(result)
-  end
-
-  def insert_icons(formatted_text)
-    formatted_text
+    result
   end
 end

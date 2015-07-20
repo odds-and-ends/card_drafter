@@ -1,5 +1,5 @@
 class AbilitiesCard < Card
-  attr_accessor :pdf, :card_hash
+  attr_accessor :pdf, :card_hash, :orientation, :margin
 
   WIDTH = 3.5.in
   HEIGHT = 2.5.in
@@ -17,6 +17,8 @@ class AbilitiesCard < Card
     super()
     @pdf = CardDrafter::PDF
     @card_hash = card_hash
+    @orientation = :landscape
+    @margin = CardDrafter::LANDSCAPE_MARGIN
   end
 
   def card_contents
