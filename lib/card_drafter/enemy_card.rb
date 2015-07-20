@@ -83,10 +83,6 @@ class EnemyCard < Card
     left_top = [pdf.bounds.right - HEALTH_SIZE, pdf.cursor + HEALTH_SIZE]
     bounding_box_args = [left_top, { width: HEALTH_SIZE, height: HEALTH_SIZE }]
     pdf.bounding_box(*bounding_box_args) do
-      spacer = HEALTH_FONT_SIZE / 4.0
-      # x = HEALTH_SIZE / 2.0 - spacer
-      # y = pdf.cursor - HEALTH_SIZE / 2.0 - spacer
-      # pdf.draw_text(health, at: [x,y], size: HEALTH_FONT_SIZE, style: :bold)
       pdf.text health, size: HEALTH_FONT_SIZE, style: :bold, align: :center, valign: :center
       pdf.stroke_bounds
     end
