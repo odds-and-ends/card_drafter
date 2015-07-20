@@ -16,5 +16,5 @@
     aim: 3
   abilities:
     Goblin Horde: -1 damage taken for each other Goblin in same square
-  health: 6
+  health: 16
   action: 2

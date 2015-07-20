@@ -10,8 +10,8 @@ class CardDrafter
   CARD_SPACING = 0
   # TODO: Code smell here, perhaps refactor as LandscapeCard and PortraitCard
   # parent classes.
-  PORTRAIT_MARGIN = [18, 0, 0, 36]
-  LANDSCAPE_MARGIN = [36, 0, 0, 18]
+  PORTRAIT_MARGIN = [0.25.in, 0, 0, 0.5.in]
+  LANDSCAPE_MARGIN = [0.5.in, 0, 0, 0.25.in]
 
   class << self
     attr_accessor :left_edge

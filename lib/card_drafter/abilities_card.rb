@@ -6,13 +6,6 @@ class AbilitiesCard < Card
   INNER_WIDTH = WIDTH - PADDING * 2
   INNER_HEIGHT = HEIGHT - PADDING * 2
 
-  IMAGE_WIDTH = 1.in
-  IMAGE_HEIGHT = INNER_HEIGHT - 0.5.in
-
-  DESCRIPTION_WIDTH = INNER_WIDTH - IMAGE_WIDTH - PADDING
-  DESCRIPTION_LEFT = IMAGE_WIDTH + PADDING
-  DESCRIPTION_FONT_SIZE = 10
-
   def initialize(card_hash)
     super()
     @pdf = CardDrafter::PDF
@@ -27,6 +20,9 @@ class AbilitiesCard < Card
     draw_description_box(card_hash['abilities'])
   end
 
+  IMAGE_WIDTH = 1.in
+  IMAGE_HEIGHT = INNER_HEIGHT - 0.5.in
+
   def draw_image(filename)
     pdf.move_down TITLE_HEIGHT + PADDING
     left_top = [0, pdf.cursor]
@@ -38,6 +34,10 @@ class AbilitiesCard < Card
       pdf.stroke_bounds
     end
   end
+
+  DESCRIPTION_WIDTH = INNER_WIDTH - IMAGE_WIDTH - PADDING
+  DESCRIPTION_LEFT = IMAGE_WIDTH + PADDING
+  DESCRIPTION_FONT_SIZE = 10
 
   def draw_description_box(raw_text)
     styled_text = raw_text.nil? ? '' : style_text(raw_text)

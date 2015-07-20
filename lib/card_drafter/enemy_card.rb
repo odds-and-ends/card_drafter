@@ -6,25 +6,6 @@ class EnemyCard < Card
   INNER_WIDTH = WIDTH - PADDING * 2
   INNER_HEIGHT = HEIGHT - PADDING * 2
 
-  IMAGE_HEIGHT = 1.in
-  IMAGE_WIDTH = 1.in
-
-  STATS_WIDTH = 1.25.in
-  STATS_LEFT = INNER_WIDTH / 2.0 - 6
-  STAT_SIZE = 20
-  STAT_FONT_SIZE = 14
-  STAT_SPACING = PADDING * 1.5
-
-  DESCRIPTION_HEIGHT = 1.5.in
-  DESCRIPTION_FONT_SIZE = 10
-
-  HEALTH_SIZE = 0.5.in
-  HEALTH_FONT_SIZE = 16
-
-  ACTION_LEFT = 20
-  ACTION_SPACING = 30
-  ACTION_CIRCLE_SIZE = 5
-
   def initialize(card_hash)
     super()
     @pdf = CardDrafter::PDF
@@ -42,6 +23,9 @@ class EnemyCard < Card
     draw_action_stat(card_hash['action'])
   end
 
+  IMAGE_HEIGHT = 1.in
+  IMAGE_WIDTH = 1.in
+
   def draw_image(filename)
     pdf.move_down TITLE_HEIGHT + PADDING
     left_top = [0, pdf.cursor]
@@ -53,6 +37,12 @@ class EnemyCard < Card
       pdf.stroke_bounds
     end
   end
+
+  STATS_WIDTH = 1.25.in
+  STATS_LEFT = INNER_WIDTH / 2.0 - 6
+  STAT_SIZE = 20
+  STAT_FONT_SIZE = 14
+  STAT_SPACING = PADDING * 1.5
 
   def draw_stats_boxes
     pdf.move_up IMAGE_HEIGHT
@@ -66,6 +56,9 @@ class EnemyCard < Card
       end
     end
   end
+
+  DESCRIPTION_HEIGHT = 1.5.in
+  DESCRIPTION_FONT_SIZE = 10
 
   def draw_description_box(raw_text)
     styled_text = raw_text.nil? ? '' : style_text(raw_text)
@@ -83,17 +76,25 @@ class EnemyCard < Card
     end
   end
 
+  HEALTH_SIZE = 0.5.in
+  HEALTH_FONT_SIZE = 16
+
   def draw_health_stat(health)
     left_top = [pdf.bounds.right - HEALTH_SIZE, pdf.cursor + HEALTH_SIZE]
     bounding_box_args = [left_top, { width: HEALTH_SIZE, height: HEALTH_SIZE }]
     pdf.bounding_box(*bounding_box_args) do
       spacer = HEALTH_FONT_SIZE / 4.0
-      x = HEALTH_SIZE / 2.0 - spacer
-      y = pdf.cursor - HEALTH_SIZE / 2.0 - spacer
-      pdf.draw_text(health, at: [x,y], size: HEALTH_FONT_SIZE, style: :bold)
+      # x = HEALTH_SIZE / 2.0 - spacer
+      # y = pdf.cursor - HEALTH_SIZE / 2.0 - spacer
+      # pdf.draw_text(health, at: [x,y], size: HEALTH_FONT_SIZE, style: :bold)
+      pdf.text health, size: HEALTH_FONT_SIZE, style: :bold, align: :center, valign: :center
       pdf.stroke_bounds
     end
   end
+
+  ACTION_LEFT = 20
+  ACTION_SPACING = 30
+  ACTION_CIRCLE_SIZE = 5
 
   def draw_action_stat(action)
     pdf.move_down PADDING * 2
@@ -105,6 +106,8 @@ class EnemyCard < Card
       end
     end
   end
+
+  private
 
   def draw_stat_icon(stat, index)
     filename = stat + '.png'
