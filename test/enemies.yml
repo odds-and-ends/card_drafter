@@ -6,6 +6,7 @@
     aim: 2
   abilities:
     Goblin Horde: +1 damage for each other Goblin in same square
+    A Longer Description: Let's figure out how text wrap works with a lot more text here. n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n-n
   health: 3
   action: 1
 - title: Goblin Bruiser
