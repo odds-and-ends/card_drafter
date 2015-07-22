@@ -35,7 +35,7 @@ class CardDrafter
     end
 
     def create_enemy_cards
-      PDF.start_new_page(layout: :portrait, margin: PORTRAIT_MARGIN)
+      start_new_page(:portrait)
       @enemies.each_with_index do |card_hash, index|
         card = EnemyCard.new(card_hash)
         card.draw!
@@ -73,6 +73,11 @@ class CardDrafter
 
     def need_to_move_to_new_page?(index)
       (index + 1) % 9 == 0 && index > 0
+    end
+
+    def start_new_page(layout)
+        CardBacksPage.new(layout, :default) #make this stuff, put this on a new branch ok?
+        PDF.start_new_page(layout: layout, margin: const_get(layout.to_s.upcase + '_MARGIN')
     end
   end
 end
