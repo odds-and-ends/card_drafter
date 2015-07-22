@@ -67,11 +67,13 @@ class EnemyCard < Card
     bounding_box_args = [left_top, { width: INNER_WIDTH, height: DESCRIPTION_HEIGHT }]
     pdf.bounding_box(*bounding_box_args) do
       pdf.move_down PADDING
-      pdf.text_box styled_text, width: INNER_WIDTH - 2 * PADDING,
-                                at: [PADDING, pdf.cursor],
-                                size: DESCRIPTION_FONT_SIZE,
-                                inline_format: true,
-                                overflow: :shrink_to_fit
+      pdf.enemy_card_description_box(styled_text,
+                                     width: INNER_WIDTH - 2 * PADDING,
+                                     height: DESCRIPTION_HEIGHT,
+                                     at: [PADDING, pdf.cursor],
+                                     size: DESCRIPTION_FONT_SIZE,
+                                     inline_format: true,
+                                     overflow: :shrink_to_fit)
       pdf.stroke_bounds
     end
   end

@@ -1,6 +1,7 @@
 require 'yaml'
 require 'prawn'
 require 'prawn/measurement_extensions'
+require 'card_drafter/prawn_patches/enemy_card_description_box'
 require 'card_drafter/card'
 require 'card_drafter/enemy_card'
 require 'card_drafter/abilities_card'
