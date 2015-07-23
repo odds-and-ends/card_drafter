@@ -1,20 +1,21 @@
 class AbilitiesCard < Card
-  attr_accessor :pdf, :card_hash, :orientation, :margin
+  attr_accessor :pdf, :card_hash, :margin
 
   WIDTH = 3.5.in
   HEIGHT = 2.5.in
   INNER_WIDTH = WIDTH - PADDING * 2
   INNER_HEIGHT = HEIGHT - PADDING * 2
+  ORIENTATION = :landscape
+  BACK_IMAGE = 'abilities_back.jpg'
 
-  def initialize(card_hash)
+  def initialize(card_hash={})
     super()
     @pdf = CardDrafter::PDF
     @card_hash = card_hash
-    @orientation = :landscape
     @margin = CardDrafter::LANDSCAPE_MARGIN
   end
 
-  def card_contents
+  def card_front_content
     draw_title(card_hash['title'])
     draw_image(card_hash['img'])
     draw_description_box(card_hash['abilities'])

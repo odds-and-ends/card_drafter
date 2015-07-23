@@ -1,20 +1,21 @@
 class EnemyCard < Card
-  attr_accessor :pdf, :card_hash, :orientation, :margin
+  attr_accessor :pdf, :card_hash, :margin
 
   WIDTH = 2.5.in
   HEIGHT = 3.5.in
   INNER_WIDTH = WIDTH - PADDING * 2
   INNER_HEIGHT = HEIGHT - PADDING * 2
+  ORIENTATION = :portrait
+  BACK_IMAGE = 'enemy_back.jpg'
 
-  def initialize(card_hash)
+  def initialize(card_hash={})
     super()
     @pdf = CardDrafter::PDF
     @card_hash = card_hash
-    @orientation = :portrait
     @margin = CardDrafter::PORTRAIT_MARGIN
   end
 
-  def card_contents
+  def card_front_content
     draw_title(card_hash['title'])
     draw_image(card_hash['img'])
     draw_stats_boxes

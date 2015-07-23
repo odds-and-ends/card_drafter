@@ -23,9 +23,14 @@ class Card
     @inner_height = self.class::INNER_HEIGHT
   end
 
-  def draw!
+  def draw_front
     draw_card_outline
     draw_contents
+  end
+
+  def draw_back
+    full_path = image_path(self.class::BACK_IMAGE)
+    pdf.image full_path, at: [left_edge, pdf.cursor],fit: [inner_width, inner_height]
   end
 
   def draw_card_outline
@@ -35,7 +40,7 @@ class Card
   def draw_contents
     pdf.move_down RADIUS
     pdf.bounding_box([left_edge + PADDING, pdf.cursor], width: inner_width, height: inner_height) do
-      card_contents
+      card_front_content
     end
   end
 

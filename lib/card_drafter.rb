@@ -36,20 +36,18 @@ class CardDrafter
     end
 
     def create_enemy_cards
-      start_new_page(:portrait)
+      start_new_page_for EnemyCard
       @enemies.each_with_index do |card_hash, index|
-        card = EnemyCard.new(card_hash)
-        card.draw!
-        move_cursor_for_new_card(index, card)
+        move_cursor_for_new_card(index, EnemyCard)
+        card = EnemyCard.new(card_hash).draw_front
       end
     end
 
     def create_abilities_cards
-      PDF.start_new_page(layout: :landscape, margin: LANDSCAPE_MARGIN)
+      start_new_page_for AbilitiesCard
       @abilities.each_with_index do |card_hash, index|
-        card = AbilitiesCard.new(card_hash)
-        card.draw!
-        move_cursor_for_new_card(index, card)
+        move_cursor_for_new_card(index, AbilitiesCard)
+        card = AbilitiesCard.new(card_hash).draw_front
       end
     end
 
@@ -57,28 +55,42 @@ class CardDrafter
       PDF.render_file('cards_draft.pdf')
     end
 
-    def move_cursor_for_new_card(index, card)
+    def move_cursor_for_new_card(index, card_class)
       if need_to_move_to_top?(index)
         PDF.move_cursor_to PDF.bounds.top
-        @left_edge += card.width + CARD_SPACING
+        @left_edge += card_class::WIDTH + CARD_SPACING
       end
       if need_to_move_to_new_page?(index)
-        PDF.start_new_page(layout: card.orientation, margin: card.margin)
         @left_edge = 0
+        start_new_page_for card_class
       end
     end
 
     def need_to_move_to_top?(index)
-      (index + 1) % 3 == 0 && index > 0
+      (index % 3) == 0 && index > 0
     end
 
     def need_to_move_to_new_page?(index)
-      (index + 1) % 9 == 0 && index > 0
+      (index % 9) == 0 && index > 0
     end
 
-    def start_new_page(layout)
-        CardBacksPage.new(layout, :default) #make this stuff, put this on a new branch ok?
-        PDF.start_new_page(layout: layout, margin: const_get(layout.to_s.upcase + '_MARGIN')
+    def start_new_page_for(card_class)
+      layout = card_class::ORIENTATION
+      margin = const_get(layout.to_s.upcase + '_MARGIN')
+      draw_card_backs_page(layout, margin, card_class)
+      PDF.start_new_page(layout: layout, margin: margin)
+    end
+
+    def draw_card_backs_page(layout, margin, card_class)
+      PDF.start_new_page(layout: layout, margin: margin)
+      9.times do |index|
+        move_cursor_for_new_card(index, card_class)
+        card = card_class.new
+        card.draw_back
+        PDF.move_down card_class::HEIGHT
+      end
+      # reset left edge since page is done
+      @left_edge = 0
     end
   end
 end
